@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP EX Intelligence Hub - AI-Powered Employee Experience Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>EX Intelligence Hub</h1>
+                <p class="subtitle">AI-Powered Employee Experience</p>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-section="ai-agent">
+                    <span class="icon">🤖</span>
+                    <span>AI Agent</span>
+                </button>
+                <button class="nav-item" data-section="sampling">
+                    <span class="icon">👥</span>
+                    <span>Employee Sampling</span>
+                </button>
+                <button class="nav-item" data-section="surveys">
+                    <span class="icon">📋</span>
+                    <span>Survey Management</span>
+                </button>
+                <button class="nav-item" data-section="analytics">
+                    <span class="icon">📊</span>
+                    <span>Analytics & Results</span>
+                </button>
+                <button class="nav-item" data-section="predictions">
+                    <span class="icon">🔮</span>
+                    <span>Predictive Analytics</span>
+                </button>
+                <button class="nav-item" data-section="historical">
+                    <span class="icon">📈</span>
+                    <span>Historical Data</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="dot"></span>
+                    <span>System Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h2 id="section-title">AI Agent Assistant</h2>
+                    <p id="section-description">Orchestrate end-to-end employee experience workflows</p>
+                </div>
+                <div class="header-right">
+                    <div class="timestamp">
+                        <span id="current-time"></span>
+                    </div>
+                    <button class="btn-icon" title="Settings">⚙️</button>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-area">
+                <!-- AI Agent Section -->
+                <section id="ai-agent" class="section active">
+                    <div class="section-container">
+                        <div class="agent-interface">
+                            <div class="agent-chat">
+                                <div class="chat-history" id="chat-history">
+                                    <div class="message bot-message">
+                                        <div class="message-content">
+                                            <p>👋 Welcome to EX Intelligence Hub! I'm your AI agent ready to help with:</p>
+                                            <ul style="margin-top: 8px; padding-left: 20px;">
+                                                <li>Employee sampling with smart constraints</li>
+                                                <li>Survey deployment and tracking</li>
+                                                <li>Real-time results analysis</li>
+                                                <li>Historical data integration</li>
+                                                <li>Predictive insights on EX trends</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input-area">
+                                    <input 
+                                        type="text" 
+                                        id="agent-input" 
+                                        class="chat-input" 
+                                        placeholder="Prompt the agent: 'Send ESAT pulse to 100 employees not contacted in 6 months' or 'Analyze survey sentiment'..."
+                                        autocomplete="off"
+                                    >
+                                    <button class="btn-send" onclick="sendAgentPrompt()">Send</button>
+                                </div>
+                            </div>
+
+                            <div class="agent-templates">
+                                <h3>Quick Prompts</h3>
+                                <div class="template-grid">
+                                    <button class="template-btn" onclick="useTemplate('Sample 150 employees from Sales department, exclude those contacted in the last 6 months')">
+                                        <span class="template-icon">👥</span>
+                                        <span>Smart Sample</span>
+                                    </button>
+                                    <button class="template-btn" onclick="useTemplate('Send ESAT pulse survey to 500 randomly selected employees and deploy tomorrow')">
+                                        <span class="template-icon">📤</span>
+                                        <span>Deploy Survey</span>
+                                    </button>
+                                    <button class="template-btn" onclick="useTemplate('Analyze survey results and extract insights from written responses')">
+                                        <span class="template-icon">📊</span>
+                                        <span>Analyze Results</span>
+                                    </button>
+                                    <button class="template-btn" onclick="useTemplate('Show me EX trends over the past 12 months and predict next quarter\\'s employee satisfaction')">
+                                        <span class="template-icon">🔮</span>
+                                        <span>Forecast EX</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Employee Sampling Section -->
+                <section id="sampling" class="section">
+                    <div class="section-container">
+                        <div class="sampling-panel">
+                            <div class="sampling-controls">
+                                <h3>Smart Employee Sampling</h3>
+                                <div class="form-group">
+                                    <label>Sample Size</label>
+                                    <input type="number" id="sample-size" value="100" min="1" max="5000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Department Filter</label>
+                                    <select id="dept-filter">
+                                        <option value="">All Departments</option>
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="HR">HR</option>
+                                        <option value="Operations">Operations</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Exclusion Window (Days)</label>
+                                    <input type="number" id="exclusion-window" value="180" min="0" max="365">
+                                </div>
+                                <button class="btn-primary" onclick="generateSample()">Generate Sample</button>
+                            </div>
+
+                            <div class="sampling-results">
+                                <h3>Sampling Results</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <div class="stat-value" id="eligible-count">-</div>
+                                        <div class="stat-label">Eligible Employees</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-value" id="excluded-count">-</div>
+                                        <div class="stat-label">Excluded (Recent Contact)</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-value" id="selected-count">-</div>
+                                        <div class="stat-label">Selected for Survey</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-value" id="coverage-pct">-</div>
+                                        <div class="stat-label">Population Coverage</div>
+                                    </div>
+                                </div>
+                                <div class="sample-breakdown">
+                                    <h4>Sample by Department</h4>
+                                    <canvas id="samplingChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Survey Management Section -->
+                <section id="surveys" class="section">
+                    <div class="section-container">
+                        <div class="surveys-panel">
+                            <div class="survey-creation">
+                                <h3>Create Survey</h3>
+                                <div class="form-group">
+                                    <label>Survey Type</label>
+                                    <select id="survey-type">
+                                        <option value="esat">ESAT Pulse Survey</option>
+                                        <option value="engagement">Employee Engagement</option>
+                                        <option value="nps">Net Promoter Score</option>
+                                        <option value="culture">Culture Assessment</option>
+                                        <option value="custom">Custom Survey</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Recipients</label>
+                                    <input type="number" id="survey-recipients" value="100" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Include Open-Ended Questions</label>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="include-open-ended" checked>
+                                        <label for="include-open-ended">Add written response questions for deeper insights</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Due Date</label>
+                                    <input type="date" id="survey-duedate">
+                                </div>
+                                <button class="btn-primary" onclick="deployNewSurvey()">Deploy Survey</button>
+                            </div>
+
+                            <div class="surveys-list">
+                                <h3>Active Surveys</h3>
+                                <div class="surveys-table" id="surveys-table">
+                                    <!-- Generated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="section">
+                    <div class="section-container">
+                        <div class="analytics-panel">
+                            <div class="analytics-header">
+                                <h3>Survey Results & Analysis</h3>
+                                <select id="analytics-filter" onchange="updateAnalytics()">
+                                    <option value="all">All Surveys</option>
+                                    <option value="esat">ESAT Pulse</option>
+                                    <option value="engagement">Engagement</option>
+                                </select>
+                            </div>
+
+                            <div class="analytics-grid">
+                                <div class="analytics-card full-width">
+                                    <h4>Overall EX Score Trend</h4>
+                                    <canvas id="trendChart"></canvas>
+                                </div>
+
+                                <div class="analytics-card">
+                                    <h4>Response Distribution</h4>
+                                    <canvas id="distributionChart"></canvas>
+                                </div>
+
+                                <div class="analytics-card">
+                                    <h4>Sentiment Analysis</h4>
+                                    <canvas id="sentimentChart"></canvas>
+                                </div>
+
+                                <div class="analytics-card full-width">
+                                    <h4>Key Themes & Insights</h4>
+                                    <div class="insights-list">
+                                        <div class="insight-item positive">
+                                            <span class="insight-label">✓ Positive</span>
+                                            <span class="insight-text">Remote work flexibility highly appreciated (89% positive mentions)</span>
+                                        </div>
+                                        <div class="insight-item negative">
+                                            <span class="insight-label">✗ Concern</span>
+                                            <span class="insight-text">Career development opportunities need improvement (34% mention frustration)</span>
+                                        </div>
+                                        <div class="insight-item neutral">
+                                            <span class="insight-label">→ Neutral</span>
+                                            <span class="insight-text">Internal communication tools could be more intuitive (45% find average)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="analytics-card full-width">
+                                    <h4>Written Response Analysis</h4>
+                                    <div class="text-analysis-container">
+                                        <div class="text-analysis-tabs">
+                                            <button class="tab-btn active" onclick="switchTextAnalysisTab('themes')">Key Themes</button>
+                                            <button class="tab-btn" onclick="switchTextAnalysisTab('responses')">Sample Responses</button>
+                                            <button class="tab-btn" onclick="switchTextAnalysisTab('insights')">AI Insights</button>
+                                        </div>
+                                        <div class="text-analysis-content">
+                                            <div id="themes-tab" class="tab-content active">
+                                                <div class="themes-grid" id="themes-grid">
+                                                    <!-- Themes will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                            <div id="responses-tab" class="tab-content">
+                                                <div class="responses-list" id="responses-list">
+                                                    <!-- Sample responses will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                            <div id="insights-tab" class="tab-content">
+                                                <div class="ai-insights" id="ai-insights">
+                                                    <!-- AI-generated insights will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Predictive Analytics Section -->
+                <section id="predictions" class="section">
+                    <div class="section-container">
+                        <div class="predictions-panel">
+                            <h3>Predictive Analytics & Forecasting</h3>
+
+                            <div class="predictions-grid">
+                                <div class="prediction-card">
+                                    <h4>EX Score Forecast (Next 3 Months)</h4>
+                                    <canvas id="forecastChart"></canvas>
+                                </div>
+
+                                <div class="prediction-card">
+                                    <h4>Attrition Risk Prediction</h4>
+                                    <div class="risk-indicator">
+                                        <div class="risk-gauge">
+                                            <div class="gauge-value" style="width: 62%;">62%</div>
+                                        </div>
+                                        <p class="risk-text">Medium-High Risk: 1,240 employees flagged as potential flight risks based on engagement decline trends</p>
+                                    </div>
+                                </div>
+
+                                <div class="prediction-card full-width">
+                                    <h4>Department EX Predictions</h4>
+                                    <div class="department-predictions">
+                                        <div class="pred-row">
+                                            <span class="pred-dept">Engineering</span>
+                                            <div class="pred-bar">
+                                                <div class="pred-fill positive" style="width: 85%;">85%</div>
+                                            </div>
+                                        </div>
+                                        <div class="pred-row">
+                                            <span class="pred-dept">Sales</span>
+                                            <div class="pred-bar">
+                                                <div class="pred-fill warning" style="width: 68%;">68%</div>
+                                            </div>
+                                        </div>
+                                        <div class="pred-row">
+                                            <span class="pred-dept">Operations</span>
+                                            <div class="pred-bar">
+                                                <div class="pred-fill warning" style="width: 72%;">72%</div>
+                                            </div>
+                                        </div>
+                                        <div class="pred-row">
+                                            <span class="pred-dept">Marketing</span>
+                                            <div class="pred-bar">
+                                                <div class="pred-fill positive" style="width: 78%;">78%</div>
+                                            </div>
+                                        </div>
+                                        <div class="pred-row">
+                                            <span class="pred-dept">HR</span>
+                                            <div class="pred-bar">
+                                                <div class="pred-fill warning" style="width: 71%;">71%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="prediction-card full-width">
+                                    <h4>Recommended Actions</h4>
+                                    <ul class="recommendations">
+                                        <li>🎯 Increase coaching for Sales department - predicted 8% EX decline Q2</li>
+                                        <li>🔄 Launch career development initiative for Operations team</li>
+                                        <li>💼 Conduct exit interviews with flagged high-attrition risk employees</li>
+                                        <li>🌟 Replicate Engineering's engagement strategies across other departments</li>
+                                        <li>📱 Implement manager check-ins for low-engagement cohorts</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Historical Data Section -->
+                <section id="historical" class="section">
+                    <div class="section-container">
+                        <div class="historical-panel">
+                            <h3>Historical Data & Trends</h3>
+
+                            <div class="historical-controls">
+                                <div class="date-range">
+                                    <label>From:</label>
+                                    <input type="date" id="hist-from" value="2024-01-01">
+                                    <label>To:</label>
+                                    <input type="date" id="hist-to">
+                                </div>
+                                <button class="btn-secondary" onclick="loadHistoricalData()">Load Data</button>
+                            </div>
+
+                            <div class="historical-grid">
+                                <div class="historical-chart full-width">
+                                    <h4>12-Month EX Score Evolution</h4>
+                                    <canvas id="historicalChart"></canvas>
+                                </div>
+
+                                <div class="historical-comparison">
+                                    <h4>Year-over-Year Comparison</h4>
+                                    <div class="comparison-grid">
+                                        <div class="comparison-item">
+                                            <span class="comp-label">2024 Avg Score</span>
+                                            <span class="comp-value">7.2</span>
+                                        </div>
+                                        <div class="comparison-item">
+                                            <span class="comp-label">2025 Avg Score</span>
+                                            <span class="comp-value">7.8</span>
+                                        </div>
+                                        <div class="comparison-item">
+                                            <span class="comp-label">YoY Change</span>
+                                            <span class="comp-value positive">+8.3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="historical-stats">
+                                    <h4>Survey History</h4>
+                                    <div class="history-table" id="history-table">
+                                        <!-- Generated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="mockData.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
