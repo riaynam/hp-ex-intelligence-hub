@@ -2,21 +2,22 @@
 
 const mockData = {
     employees: [
-        { id: 1, name: 'Alice Johnson', department: 'Engineering', lastContactDate: '2025-08-15', engagement: 8.5 },
-        { id: 2, name: 'Bob Smith', department: 'Sales', lastContactDate: '2025-11-20', engagement: 6.2 },
-        { id: 3, name: 'Carol Davis', department: 'Marketing', lastContactDate: '2025-09-10', engagement: 7.8 },
-        { id: 4, name: 'David Wilson', department: 'Engineering', lastContactDate: '2025-07-05', engagement: 8.1 },
-        { id: 5, name: 'Emma Brown', department: 'Operations', lastContactDate: '2025-10-12', engagement: 6.9 },
-        { id: 6, name: 'Frank Miller', department: 'HR', lastContactDate: '2025-08-28', engagement: 7.5 },
-        { id: 7, name: 'Grace Lee', department: 'Engineering', lastContactDate: '2025-05-14', engagement: 8.7 },
-        { id: 8, name: 'Henry Garcia', department: 'Sales', lastContactDate: '2025-12-02', engagement: 5.8 },
-        { id: 9, name: 'Iris Martinez', department: 'Marketing', lastContactDate: '2025-06-21', engagement: 7.3 },
-        { id: 10, name: 'Jack Robinson', department: 'Operations', lastContactDate: '2025-11-11', engagement: 6.5 },
+        { id: 1, name: 'Alice Johnson', department: 'Engineering', role: 'Technical Specialist', lastContactDate: '2025-08-15', engagement: 8.5 },
+        { id: 2, name: 'Bob Smith', department: 'Sales', role: 'Manager', lastContactDate: '2025-11-20', engagement: 6.2 },
+        { id: 3, name: 'Carol Davis', department: 'Marketing', role: 'Individual Contributor', lastContactDate: '2025-09-10', engagement: 7.8 },
+        { id: 4, name: 'David Wilson', department: 'Engineering', role: 'Manager', lastContactDate: '2025-07-05', engagement: 8.1 },
+        { id: 5, name: 'Emma Brown', department: 'Operations', role: 'Support', lastContactDate: '2025-10-12', engagement: 6.9 },
+        { id: 6, name: 'Frank Miller', department: 'HR', role: 'Executive', lastContactDate: '2025-08-28', engagement: 7.5 },
+        { id: 7, name: 'Grace Lee', department: 'Engineering', role: 'Technical Specialist', lastContactDate: '2025-05-14', engagement: 8.7 },
+        { id: 8, name: 'Henry Garcia', department: 'Sales', role: 'Individual Contributor', lastContactDate: '2025-12-02', engagement: 5.8 },
+        { id: 9, name: 'Iris Martinez', department: 'Marketing', role: 'Technical Specialist', lastContactDate: '2025-06-21', engagement: 7.3 },
+        { id: 10, name: 'Jack Robinson', department: 'Operations', role: 'Support', lastContactDate: '2025-11-11', engagement: 6.5 },
         // Additional employees (truncated for brevity)
         ...Array.from({ length: 1990 }, (_, i) => ({
             id: 11 + i,
             name: `Employee ${11 + i}`,
             department: ['Engineering', 'Sales', 'Marketing', 'HR', 'Operations'][Math.floor(Math.random() * 5)],
+            role: ['Executive', 'Manager', 'Technical Specialist', 'Individual Contributor', 'Support'][Math.floor(Math.random() * 5)],
             lastContactDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             engagement: Math.random() * 3 + 5.5
         }))
@@ -106,9 +107,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 1,
                 department: 'Engineering',
+                role: 'Technical Specialist',
                 response: "I really appreciate the flexible work arrangements. Being able to work from home has significantly improved my work-life balance. The company culture is supportive and collaborative.",
                 sentiment: 'positive',
-                themes: ['remote work', 'work-life balance', 'company culture'],
+                themes: ['workplace connectivity', 'collaboration tools', 'team collaboration'],
                 score: 9
             },
             {
@@ -116,9 +118,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 2,
                 department: 'Sales',
+                role: 'Manager',
                 response: "The sales targets are unrealistic and the pressure is too high. I feel like I'm constantly chasing numbers without proper support from management. Career growth opportunities are limited.",
                 sentiment: 'negative',
-                themes: ['sales targets', 'management support', 'career growth'],
+                themes: ['device performance', 'network reliability', 'meeting room AV'],
                 score: 4
             },
             {
@@ -126,9 +129,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 3,
                 department: 'Marketing',
-                response: "The marketing tools are decent but could be better integrated. Communication between departments could be improved. Overall, I'm satisfied with my role.",
+                role: 'Technical Specialist',
+                response: "The marketing tools are decent but could be better integrated. Communication across role teams could be improved. Overall, I'm satisfied with my role.",
                 sentiment: 'neutral',
-                themes: ['tools', 'communication', 'department collaboration'],
+                themes: ['collaboration tools', 'digital workspaces', 'conference room technology'],
                 score: 7
             },
             {
@@ -136,9 +140,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 4,
                 department: 'Engineering',
+                role: 'Manager',
                 response: "Love the technical challenges and the team I'm working with. The compensation is competitive and benefits are excellent. Would like more opportunities for professional development.",
                 sentiment: 'positive',
-                themes: ['technical challenges', 'team', 'compensation', 'professional development'],
+                themes: ['device performance', 'collaboration tools', 'network reliability'],
                 score: 8
             },
             {
@@ -146,9 +151,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 5,
                 department: 'Operations',
+                role: 'Support',
                 response: "Operations processes are inefficient and outdated. Too much manual work that could be automated. Management seems disconnected from day-to-day challenges.",
                 sentiment: 'negative',
-                themes: ['processes', 'automation', 'management'],
+                themes: ['digital workspaces', 'meeting room AV', 'conference room technology'],
                 score: 5
             },
             {
@@ -156,9 +162,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 6,
                 department: 'HR',
+                role: 'Executive',
                 response: "HR processes are generally good but could be faster. The employee assistance program is helpful. More focus on diversity and inclusion initiatives would be welcome.",
                 sentiment: 'neutral',
-                themes: ['HR processes', 'employee assistance', 'diversity'],
+                themes: ['workplace connectivity', 'team collaboration', 'digital workspaces'],
                 score: 7
             },
             {
@@ -166,9 +173,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 7,
                 department: 'Engineering',
+                role: 'Technical Specialist',
                 response: "This is the best place I've worked. Innovative projects, great colleagues, and management truly cares about employee development. The only minor issue is occasional communication delays.",
                 sentiment: 'positive',
-                themes: ['innovation', 'colleagues', 'management', 'communication'],
+                themes: ['collaboration tools', 'network reliability', 'conference room technology'],
                 score: 9
             },
             {
@@ -176,9 +184,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 8,
                 department: 'Sales',
+                role: 'Individual Contributor',
                 response: "Commission structure needs review - it's not motivating enough. Training programs are inadequate for the complex products we sell. High turnover in the team affects morale.",
                 sentiment: 'negative',
-                themes: ['commission', 'training', 'turnover', 'morale'],
+                themes: ['device performance', 'meeting room AV', 'workplace connectivity'],
                 score: 4
             },
             {
@@ -186,9 +195,10 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 9,
                 department: 'Marketing',
-                response: "Creative freedom is good but budget constraints limit campaign effectiveness. Cross-functional collaboration has improved recently. Workload can be overwhelming during peak seasons.",
+                role: 'Technical Specialist',
+                response: "Creative freedom is good but budget constraints limit campaign effectiveness. Cross-role collaboration has improved recently. Workload can be overwhelming during peak seasons.",
                 sentiment: 'neutral',
-                themes: ['creative freedom', 'budget', 'collaboration', 'workload'],
+                themes: ['digital workspaces', 'team collaboration', 'collaboration tools'],
                 score: 6
             },
             {
@@ -196,22 +206,23 @@ const mockData = {
                 surveyId: 'ESAT-2025-001',
                 employeeId: 10,
                 department: 'Operations',
+                role: 'Support',
                 response: "Safety protocols are excellent and well-enforced. However, the pace of change is too slow and we're falling behind competitors. Need more investment in technology.",
                 sentiment: 'neutral',
-                themes: ['safety', 'change management', 'technology investment'],
+                themes: ['conference room technology', 'device performance', 'network reliability'],
                 score: 6
             }
         ],
         textAnalysis: {
             topThemes: [
-                { theme: 'Work-life balance', mentions: 45, sentiment: 'positive', trend: 'increasing' },
-                { theme: 'Career development', mentions: 38, sentiment: 'negative', trend: 'stable' },
-                { theme: 'Management support', mentions: 32, sentiment: 'mixed', trend: 'declining' },
-                { theme: 'Communication', mentions: 28, sentiment: 'neutral', trend: 'improving' },
-                { theme: 'Compensation', mentions: 25, sentiment: 'positive', trend: 'stable' },
-                { theme: 'Workload', mentions: 22, sentiment: 'negative', trend: 'increasing' },
-                { theme: 'Team collaboration', mentions: 19, sentiment: 'positive', trend: 'improving' },
-                { theme: 'Tools & technology', mentions: 16, sentiment: 'neutral', trend: 'stable' }
+                { theme: 'Conference Room Technology', mentions: 45, sentiment: 'positive', trend: 'increasing' },
+                { theme: 'Collaboration Tools', mentions: 38, sentiment: 'mixed', trend: 'stable' },
+                { theme: 'Meeting Room AV', mentions: 32, sentiment: 'neutral', trend: 'improving' },
+                { theme: 'Workplace Connectivity', mentions: 28, sentiment: 'positive', trend: 'improving' },
+                { theme: 'Device Performance', mentions: 25, sentiment: 'negative', trend: 'stable' },
+                { theme: 'Network Reliability', mentions: 22, sentiment: 'negative', trend: 'increasing' },
+                { theme: 'Team Collaboration', mentions: 19, sentiment: 'positive', trend: 'improving' },
+                { theme: 'Digital Workspaces', mentions: 16, sentiment: 'neutral', trend: 'stable' }
             ],
             sentimentBreakdown: {
                 positive: 156,
@@ -219,11 +230,11 @@ const mockData = {
                 negative: 87
             },
             keyInsights: [
-                "Remote work flexibility is the most praised aspect (89% positive mentions)",
-                "Career development opportunities show consistent dissatisfaction (67% negative)",
-                "Management communication gaps are a recurring theme across departments",
-                "Technical teams report highest satisfaction with work challenges and autonomy",
-                "Sales and Operations teams express concerns about support and resources"
+                "Conference room technology reliability is the most praised aspect (89% positive mentions)",
+                "Device performance issues show consistent dissatisfaction (67% negative)",
+                "Management communication gaps are a recurring theme across roles",
+                "Technical Specialists report highest satisfaction with collaboration tools and autonomy",
+                "Individual Contributors express concerns about network reliability and support"
             ]
         },
         themes: [
@@ -252,6 +263,13 @@ const mockData = {
             'Marketing': 0.78,
             'HR': 0.71,
             'Operations': 0.72
+        },
+        roleForecast: {
+            'Executive': 0.92,
+            'Manager': 0.84,
+            'Technical Specialist': 0.88,
+            'Individual Contributor': 0.79,
+            'Support': 0.75
         }
     },
 
@@ -283,7 +301,7 @@ const agentResponses = {
         "",
         "Based on your parameters:",
         "• Sample Size Requested: {{sampleSize}}",
-        "• Department: {{department || 'All'}}",
+        "• Role: {{role || 'All'}}",
         "• Contact Exclusion Window: {{exclusion}} days",
         "",
         "Results:",
@@ -292,7 +310,7 @@ const agentResponses = {
         "✓ Selected for Survey: {{selected}}",
         "✓ Population Coverage: {{coverage}}%",
         "",
-        "The sample is geographically and demographically balanced across your organization."
+        "The sample is balanced across role segments in this mock data set."
     ],
     deploy: [
         "📤 Survey Deployment Initiated",
@@ -315,23 +333,23 @@ const agentResponses = {
         "📊 Results Analysis Complete",
         "",
         "Key Findings:",
-        "• Overall EX Score: 7.8/10 (↑0.3 from last month)",
+        "• Overall EX Score: 78% (↑3% from last month)",
         "• Response Rate: 78.4% (exceeds target of 60%)",
         "• Net Positive Sentiment: 64% (vs. 58% historical average)",
         "",
         "Quantitative Insights:",
-        "✓ Remote work flexibility highly appreciated (89% positive mentions)",
-        "✓ Career development opportunities need improvement (34% mention frustration)",
-        "✓ Internal communication tools could be more intuitive (45% find average)",
+        "✓ Conference room technology highly appreciated (89% positive mentions)",
+        "✓ Device performance issues need improvement (34% mention frustration)",
+        "✓ Collaboration tools could be more intuitive (45% find average)",
         "",
         "Written Response Analysis:",
         "• 341 written responses analyzed",
-        "• Top themes: Work-life balance, Career growth, Management support",
+        "• Top themes: Conference Room Technology, Collaboration Tools, Meeting Room AV",
         "• Sentiment distribution: 42% positive, 35% neutral, 23% negative",
         "",
         "Recommended Actions:",
-        "→ Launch career pathing initiative in Q2",
-        "→ Evaluate internal communication platform",
+        "→ Upgrade conference room technology in Q2",
+        "→ Evaluate collaboration tool effectiveness",
         "→ Analyze written responses for deeper insights"
     ],
     forecast: [
@@ -342,18 +360,18 @@ const agentResponses = {
         "• Momentum Score: Strong ↗",
         "",
         "Q2 2026 Forecast:",
-        "• Predicted EX Score: 8.2 ± 0.3 (87% confidence)",
+        "• Predicted EX Score: 82% ± 3% (87% confidence)",
         "• Attrition Risk: 1,240 employees (medium-high risk tier)",
         "",
-        "Department-level Predictions:",
-        "• Engineering: ↑0.8 (strongest trajectory)",
-        "• Sales: →0.0 (plateauing, needs intervention)",
-        "• Operations: ↓0.2 (declining - investigate)",
+        "Role-level Predictions:",
+        "• Executive: ↑0.8 (strongest trajectory)",
+        "• Manager: →0.0 (plateauing, needs intervention)",
+        "• Support: ↓0.2 (declining - investigate)",
         "",
         "Recommended Proactive Measures:",
         "• Conduct exit interviews with flagged employees",
-        "• Intensify manager coaching in Sales division",
-        "• Scale Engineering's successful practices"
+        "• Intensify manager coaching across role teams",
+        "• Scale successful tactics from top-performing roles"
     ],
     default: [
         "🤖 I'm processing your request...",
@@ -369,19 +387,64 @@ const agentResponses = {
     ]
 };
 
+function formatResponse(template, values) {
+    return template.map(line => line.replace(/\{\{([^}]+)\}\}/g, (_, key) => {
+        const [rawKey, rawDefault] = key.split('||').map(s => s.trim());
+        const defaultValue = rawDefault ? rawDefault.replace(/^'(.*)'$/, '$1') : '';
+        const value = values[rawKey];
+        return value !== undefined && value !== null && value !== '' ? value : defaultValue;
+    })).join('\n');
+}
+
+function parseSamplePrompt(prompt) {
+    const sampleSizeMatch = prompt.match(/(\d+)\s*employees/i);
+    const roleMatch = prompt.match(/from\s+([A-Za-z ]+?)\s+(?:role|department)/i);
+    const monthsMatch = prompt.match(/(\d+)\s*months?/i);
+
+    return {
+        sampleSize: sampleSizeMatch ? sampleSizeMatch[1] : '150',
+        role: roleMatch ? roleMatch[1].trim() : 'All',
+        exclusion: monthsMatch ? String(Number(monthsMatch[1]) * 30) : '180'
+    };
+}
+
+function parseDeployPrompt(prompt) {
+    const recipientsMatch = prompt.match(/(\d+)\s*randomly selected/i);
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+
+    return {
+        recipients: recipientsMatch ? recipientsMatch[1] : '500',
+        date: tomorrow
+    };
+}
+
 // Utility function to get agent response
 function getAgentResponse(prompt) {
     const lowerPrompt = prompt.toLowerCase();
     let response;
 
     if (lowerPrompt.includes('sample') || lowerPrompt.includes('select')) {
-        response = agentResponses.sample;
+        const params = parseSamplePrompt(prompt);
+        const result = generateSampleData(Number(params.sampleSize), params.role, Number(params.exclusion));
+        response = formatResponse(agentResponses.sample, {
+            sampleSize: params.sampleSize,
+            role: params.role,
+            exclusion: params.exclusion,
+            eligible: result.eligible,
+            excluded: result.excluded,
+            selected: result.selected,
+            coverage: result.coverage
+        });
     } else if (lowerPrompt.includes('deploy') || lowerPrompt.includes('send') || lowerPrompt.includes('survey')) {
-        response = agentResponses.deploy;
+        const params = parseDeployPrompt(prompt);
+        response = formatResponse(agentResponses.deploy, {
+            recipients: params.recipients,
+            date: params.date
+        });
     } else if (lowerPrompt.includes('analyze') || lowerPrompt.includes('result') || lowerPrompt.includes('sentiment')) {
-        response = agentResponses.analyze;
+        response = agentResponses.analyze.join('\n');
     } else if (lowerPrompt.includes('forecast') || lowerPrompt.includes('predict') || lowerPrompt.includes('trend')) {
-        response = agentResponses.forecast;
+        response = agentResponses.forecast.join('\n');
     } else if (lowerPrompt.includes('text') || lowerPrompt.includes('written') || lowerPrompt.includes('response') || lowerPrompt.includes('open-ended')) {
         response = [
             "📝 Written Response Analysis",
@@ -410,23 +473,23 @@ function getAgentResponse(prompt) {
             "→ Upgrade collaboration tools based on feedback",
             "",
             "I've updated the Analytics dashboard with detailed text analysis. Check the 'Written Response Analysis' section for interactive exploration."
-        ];
+        ].join('\n');
     } else {
-        response = agentResponses.default;
+        response = agentResponses.default.join('\n');
     }
 
-    return response.join('\n');
+    return response;
 }
 
 // Utility function to get sample data
-function generateSampleData(size, department, exclusionDays) {
+function generateSampleData(size, role, exclusionDays) {
     const today = new Date();
     const exclusionDate = new Date(today.setDate(today.getDate() - exclusionDays));
 
     let filtered = mockData.employees;
 
-    if (department && department !== '') {
-        filtered = filtered.filter(e => e.department === department);
+    if (role && role !== '') {
+        filtered = filtered.filter(e => e.role === role);
     }
 
     const eligible = filtered.filter(e => new Date(e.lastContactDate) < exclusionDate);
@@ -441,14 +504,14 @@ function generateSampleData(size, department, exclusionDays) {
     };
 }
 
-// Utility function to calculate department breakdown
-function getDepartmentBreakdown(selectedSize) {
-    const departments = ['Engineering', 'Sales', 'Marketing', 'HR', 'Operations'];
+// Utility function to calculate role breakdown
+function getRoleBreakdown(selectedSize) {
+    const roles = ['Executive', 'Manager', 'Technical Specialist', 'Individual Contributor', 'Support'];
     const breakdown = {};
-    const perDept = Math.floor(selectedSize / departments.length);
+    const perRole = Math.floor(selectedSize / roles.length);
 
-    departments.forEach(dept => {
-        breakdown[dept] = perDept + Math.floor(Math.random() * 5);
+    roles.forEach(role => {
+        breakdown[role] = perRole + Math.floor(Math.random() * 5);
     });
 
     return breakdown;

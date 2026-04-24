@@ -1,9 +1,9 @@
 /* Global Styles */
 :root {
-    --primary: #0066cc;
-    --primary-dark: #004499;
-    --primary-light: #e6f0ff;
-    --secondary: #f39200;
+    --primary: #0096D6; /* HP Blue */
+    --primary-dark: #001F5F; /* HP Dark Blue */
+    --primary-light: #e6f7ff;
+    --secondary: #C8102E; /* HP Red */
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
@@ -41,7 +41,7 @@ html, body {
 /* Sidebar */
 .sidebar {
     width: 260px;
-    background: linear-gradient(180deg, var(--neutral-dark) 0%, #111827 100%);
+    background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
     color: white;
     display: flex;
     flex-direction: column;
@@ -65,6 +65,19 @@ html, body {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
     font-weight: 500;
+}
+
+.sidebar-header .demo-disclaimer {
+    margin-top: 10px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.disclaimer-note {
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--neutral);
 }
 
 .nav-menu {
@@ -146,7 +159,7 @@ html, body {
 
 /* Header */
 .header {
-    background: white;
+    background: linear-gradient(90deg, white 0%, #f0f8ff 50%, white 100%);
     padding: 20px 28px;
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -196,10 +209,12 @@ html, body {
     flex: 1;
     overflow-y: auto;
     padding: 28px;
+    min-height: 0; /* Allow flex item to shrink below content size */
 }
 
 .section {
     display: none;
+    min-height: 100%; /* Allow content to expand beyond viewport */
 }
 
 .section.active {
@@ -520,6 +535,13 @@ html, body {
     cursor: pointer;
 }
 
+.metric-description {
+    margin: 8px 0 18px;
+    color: var(--neutral);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 .analytics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -642,7 +664,7 @@ html, body {
     line-height: 1.5;
 }
 
-.department-predictions {
+.role-predictions {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -655,7 +677,7 @@ html, body {
     align-items: center;
 }
 
-.pred-dept {
+.pred-role {
     font-weight: 600;
     font-size: 13px;
     color: var(--neutral-dark);
@@ -1078,22 +1100,18 @@ html, body {
 
 .theme-card.positive {
     border-left-color: var(--success);
-    background: rgba(16, 185, 129, 0.05);
 }
 
 .theme-card.negative {
     border-left-color: var(--danger);
-    background: rgba(239, 68, 68, 0.05);
 }
 
 .theme-card.neutral {
     border-left-color: var(--warning);
-    background: rgba(245, 158, 11, 0.05);
 }
 
 .theme-card.mixed {
-    border-left-color: var(--neutral);
-    background: rgba(107, 114, 128, 0.05);
+    border-left-color: var(--primary);
 }
 
 .theme-name {

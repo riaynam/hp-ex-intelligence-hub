@@ -12,11 +12,16 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h1>EX Intelligence Hub</h1>
+                <h1>HP EX Intelligence Hub</h1>
                 <p class="subtitle">AI-Powered Employee Experience</p>
+                <p class="demo-disclaimer">This demo uses mock data only and does not represent real HP data.</p>
             </div>
             <nav class="nav-menu">
-                <button class="nav-item active" data-section="ai-agent">
+                <button class="nav-item active" data-section="predictions">
+                    <span class="icon">🔮</span>
+                    <span>Predictive Analytics</span>
+                </button>
+                <button class="nav-item" data-section="ai-agent">
                     <span class="icon">🤖</span>
                     <span>AI Agent</span>
                 </button>
@@ -31,10 +36,6 @@
                 <button class="nav-item" data-section="analytics">
                     <span class="icon">📊</span>
                     <span>Analytics & Results</span>
-                </button>
-                <button class="nav-item" data-section="predictions">
-                    <span class="icon">🔮</span>
-                    <span>Predictive Analytics</span>
                 </button>
                 <button class="nav-item" data-section="historical">
                     <span class="icon">📈</span>
@@ -54,8 +55,8 @@
             <!-- Header -->
             <header class="header">
                 <div class="header-left">
-                    <h2 id="section-title">AI Agent Assistant</h2>
-                    <p id="section-description">Orchestrate end-to-end employee experience workflows</p>
+                    <h2 id="section-title">Predictive Analytics</h2>
+                    <p id="section-description">AI-powered forecasting and recommendations</p>
                 </div>
                 <div class="header-right">
                     <div class="timestamp">
@@ -68,7 +69,7 @@
             <!-- Content Sections -->
             <div class="content-area">
                 <!-- AI Agent Section -->
-                <section id="ai-agent" class="section active">
+                <section id="ai-agent" class="section">
                     <div class="section-container">
                         <div class="agent-interface">
                             <div class="agent-chat">
@@ -101,7 +102,7 @@
                             <div class="agent-templates">
                                 <h3>Quick Prompts</h3>
                                 <div class="template-grid">
-                                    <button class="template-btn" onclick="useTemplate('Sample 150 employees from Sales department, exclude those contacted in the last 6 months')">
+                                    <button class="template-btn" onclick="useTemplate('Sample 150 employees from Manager role, exclude those contacted in the last 6 months')">
                                         <span class="template-icon">👥</span>
                                         <span>Smart Sample</span>
                                     </button>
@@ -134,14 +135,14 @@
                                     <input type="number" id="sample-size" value="100" min="1" max="5000">
                                 </div>
                                 <div class="form-group">
-                                    <label>Department Filter</label>
-                                    <select id="dept-filter">
-                                        <option value="">All Departments</option>
-                                        <option value="Engineering">Engineering</option>
-                                        <option value="Sales">Sales</option>
-                                        <option value="Marketing">Marketing</option>
-                                        <option value="HR">HR</option>
-                                        <option value="Operations">Operations</option>
+                                    <label>Role Filter</label>
+                                    <select id="role-filter">
+                                        <option value="">All Roles</option>
+                                        <option value="Executive">Executive</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Technical Specialist">Technical Specialist</option>
+                                        <option value="Individual Contributor">Individual Contributor</option>
+                                        <option value="Support">Support</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -172,7 +173,7 @@
                                     </div>
                                 </div>
                                 <div class="sample-breakdown">
-                                    <h4>Sample by Department</h4>
+                                    <h4>Sample by Role</h4>
                                     <canvas id="samplingChart"></canvas>
                                 </div>
                             </div>
@@ -244,7 +245,8 @@
                                 </div>
 
                                 <div class="analytics-card">
-                                    <h4>Response Distribution</h4>
+                                    <h4>Survey Response Distribution</h4>
+                                    <p class="metric-description">Shows the percentage of employees whose survey scores fall into percent score ranges, e.g. how many employees scored within 0-20%, 20-40%, and so on.</p>
                                     <canvas id="distributionChart"></canvas>
                                 </div>
 
@@ -304,12 +306,24 @@
                 </section>
 
                 <!-- Predictive Analytics Section -->
-                <section id="predictions" class="section">
+                <section id="predictions" class="section active">
                     <div class="section-container">
                         <div class="predictions-panel">
                             <h3>Predictive Analytics & Forecasting</h3>
 
                             <div class="predictions-grid">
+                                                <div class="prediction-card full-width">
+                                    <h4>Recommended Actions</h4>
+                                    <p class="disclaimer-note">Disclaimer: These actions are illustrative mock suggestions only and are not based on real HP data.</p>
+                                    <ul class="recommendations">
+                                        <li>🎯 Improve collaboration technology for cross-functional teams</li>
+                                        <li>🔄 Upgrade conference room AV systems to support hybrid work</li>
+                                        <li>💼 Expand executive visibility into digital productivity metrics</li>
+                                        <li>🌟 Standardize collaboration tools across engineering and support roles</li>
+                                        <li>📱 Pilot next-gen team communication workflows for managers</li>
+                                    </ul>
+                                </div>
+
                                 <div class="prediction-card">
                                     <h4>EX Score Forecast (Next 3 Months)</h4>
                                     <canvas id="forecastChart"></canvas>
@@ -326,50 +340,10 @@
                                 </div>
 
                                 <div class="prediction-card full-width">
-                                    <h4>Department EX Predictions</h4>
-                                    <div class="department-predictions">
-                                        <div class="pred-row">
-                                            <span class="pred-dept">Engineering</span>
-                                            <div class="pred-bar">
-                                                <div class="pred-fill positive" style="width: 85%;">85%</div>
-                                            </div>
-                                        </div>
-                                        <div class="pred-row">
-                                            <span class="pred-dept">Sales</span>
-                                            <div class="pred-bar">
-                                                <div class="pred-fill warning" style="width: 68%;">68%</div>
-                                            </div>
-                                        </div>
-                                        <div class="pred-row">
-                                            <span class="pred-dept">Operations</span>
-                                            <div class="pred-bar">
-                                                <div class="pred-fill warning" style="width: 72%;">72%</div>
-                                            </div>
-                                        </div>
-                                        <div class="pred-row">
-                                            <span class="pred-dept">Marketing</span>
-                                            <div class="pred-bar">
-                                                <div class="pred-fill positive" style="width: 78%;">78%</div>
-                                            </div>
-                                        </div>
-                                        <div class="pred-row">
-                                            <span class="pred-dept">HR</span>
-                                            <div class="pred-bar">
-                                                <div class="pred-fill warning" style="width: 71%;">71%</div>
-                                            </div>
-                                        </div>
+                                    <h4>Role EX Predictions</h4>
+                                    <div class="role-predictions" id="role-predictions">
+                                        <!-- Role predictions will be populated by JavaScript -->
                                     </div>
-                                </div>
-
-                                <div class="prediction-card full-width">
-                                    <h4>Recommended Actions</h4>
-                                    <ul class="recommendations">
-                                        <li>🎯 Increase coaching for Sales department - predicted 8% EX decline Q2</li>
-                                        <li>🔄 Launch career development initiative for Operations team</li>
-                                        <li>💼 Conduct exit interviews with flagged high-attrition risk employees</li>
-                                        <li>🌟 Replicate Engineering's engagement strategies across other departments</li>
-                                        <li>📱 Implement manager check-ins for low-engagement cohorts</li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -402,12 +376,12 @@
                                     <h4>Year-over-Year Comparison</h4>
                                     <div class="comparison-grid">
                                         <div class="comparison-item">
-                                            <span class="comp-label">2024 Avg Score</span>
-                                            <span class="comp-value">7.2</span>
+                                            <span class="comp-label">2024 Avg %</span>
+                                            <span class="comp-value">72%</span>
                                         </div>
                                         <div class="comparison-item">
-                                            <span class="comp-label">2025 Avg Score</span>
-                                            <span class="comp-value">7.8</span>
+                                            <span class="comp-label">2025 Avg %</span>
+                                            <span class="comp-value">78%</span>
                                         </div>
                                         <div class="comparison-item">
                                             <span class="comp-label">YoY Change</span>
@@ -418,6 +392,7 @@
 
                                 <div class="historical-stats">
                                     <h4>Survey History</h4>
+                                    <p class="metric-description">Historical survey results showing dates, average EX scores in percentages, and response counts.</p>
                                     <div class="history-table" id="history-table">
                                         <!-- Generated dynamically -->
                                     </div>

@@ -68,9 +68,15 @@ function switchSection(sectionId) {
             renderThemesGrid(); // Initialize text analysis
         }, 100);
     } else if (sectionId === 'predictions') {
-        setTimeout(() => initForecastChart(), 100);
+        setTimeout(() => {
+            initForecastChart();
+            renderRolePredictions();
+        }, 100);
     } else if (sectionId === 'historical') {
-        setTimeout(() => initHistoricalChart(), 100);
+        setTimeout(() => {
+            initHistoricalChart();
+            updateHistoryTable();
+        }, 100);
     }
 }
 
@@ -118,10 +124,10 @@ function addChatMessage(content, type) {
 
 function generateSample() {
     const sampleSize = parseInt(document.getElementById('sample-size').value);
-    const department = document.getElementById('dept-filter').value;
+    const role = document.getElementById('role-filter').value;
     const exclusionDays = parseInt(document.getElementById('exclusion-window').value);
 
-    const result = generateSampleData(sampleSize, department, exclusionDays);
+    const result = generateSampleData(sampleSize, role, exclusionDays);
 
     // Update stats
     document.getElementById('eligible-count').textContent = result.eligible.toLocaleString();
@@ -140,7 +146,7 @@ function initSamplingChart() {
     if (!ctx) return;
 
     const sampleSize = parseInt(document.getElementById('sample-size').value);
-    const breakdown = getDepartmentBreakdown(sampleSize);
+    const breakdown = getRoleBreakdown(sampleSize);
 
     if (charts.sampling) {
         charts.sampling.destroy();
@@ -273,7 +279,7 @@ function initTrendChart() {
             labels: data.map(d => d.month),
             datasets: [{
                 label: 'EX Score',
-                data: data.map(d => d.score),
+                data: data.map(d => d.score * 10),
                 borderColor: '#0066cc',
                 backgroundColor: 'rgba(0, 102, 204, 0.05)',
                 borderWidth: 3,
@@ -297,10 +303,13 @@ function initTrendChart() {
             },
             scales: {
                 y: {
-                    beginAtZero: false,
-                    min: 6,
-                    max: 10,
-                    ticks: { font: { size: 12 } }
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        font: { size: 12 },
+                        callback: value => `${value}%`
+                    }
                 }
             }
         }
@@ -316,24 +325,38 @@ function initDistributionChart() {
     }
 
     const responses = mockData.results.responsesByScore;
+    const totalResponses = Object.values(responses).reduce((sum, value) => sum + value, 0);
+    const bins = [
+        { label: '0-20%', min: 0, max: 20, count: 0 },
+        { label: '20-40%', min: 20, max: 40, count: 0 },
+        { label: '40-60%', min: 40, max: 60, count: 0 },
+        { label: '60-80%', min: 60, max: 80, count: 0 },
+        { label: '80-100%', min: 80, max: 100, count: 0 }
+    ];
+
+    Object.entries(responses).forEach(([scoreLabel, count]) => {
+        const scorePercent = Number(scoreLabel) * 10;
+        const bin = bins.find(bucket => scorePercent > bucket.min && scorePercent <= bucket.max);
+        if (bin) {
+            bin.count += count;
+        }
+    });
+
+    const labels = bins.map(bin => bin.label);
+    const data = bins.map(bin => Number(((bin.count / totalResponses) * 100).toFixed(1)));
 
     charts.distribution = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: Object.keys(responses),
+            labels,
             datasets: [{
-                data: Object.values(responses),
+                data,
                 backgroundColor: [
                     '#ef4444',
                     '#f87171',
                     '#fb923c',
                     '#fbbf24',
-                    '#fcd34d',
-                    '#fde047',
-                    '#bfdbfe',
-                    '#60a5fa',
-                    '#3b82f6',
-                    '#1d4ed8'
+                    '#60a5fa'
                 ],
                 borderColor: '#fff',
                 borderWidth: 2
@@ -346,11 +369,21 @@ function initDistributionChart() {
                 legend: {
                     position: 'right',
                     labels: { font: { size: 11 }, padding: 12 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            return `${label}: ${value}% of employees`; 
+                        }
+                    }
                 }
             }
         }
     });
 }
+
 
 function initSentimentChart() {
     const ctx = document.getElementById('sentimentChart');
@@ -438,7 +471,7 @@ function renderResponsesList() {
         <div class="response-card ${response.sentiment}">
             <div class="response-text">"${response.response}"</div>
             <div class="response-meta">
-                <span class="response-dept">${response.department}</span>
+                <span class="response-role">${response.role || response.department || 'Role data'}</span>
                 <span class="response-score">Score: ${response.score}/10</span>
             </div>
         </div>
@@ -460,10 +493,10 @@ function renderAIInsights() {
 
     // Add additional AI-generated insights
     const additionalInsights = [
-        "Sentiment analysis shows 67% of negative feedback is concentrated in Sales and Operations departments",
-        "Thematic clustering reveals 'career development' as an emerging priority across all departments",
+        "Sentiment analysis shows 67% of negative feedback is concentrated in managers and support roles",
+        "Thematic clustering reveals 'career development' as an emerging priority across all role groups",
         "Response length correlates with engagement scores - longer responses tend to be more positive",
-        "Cross-departmental collaboration themes appear more frequently in Engineering and Marketing"
+        "Cross-role collaboration themes appear more frequently in technical and executive teams"
     ];
 
     additionalInsights.forEach(insight => {
@@ -497,7 +530,7 @@ function initForecastChart() {
             datasets: [
                 {
                     label: 'Historical',
-                    data: [...current.map(d => d.score), null, null, null],
+                    data: [...current.map(d => d.score * 10), null, null, null],
                     borderColor: '#0066cc',
                     backgroundColor: 'rgba(0, 102, 204, 0.05)',
                     fill: true,
@@ -508,7 +541,7 @@ function initForecastChart() {
                 },
                 {
                     label: 'Forecast',
-                    data: [null, null, null, ...forecast.map(d => d.score)],
+                    data: [null, null, null, ...forecast.map(d => d.score * 10)],
                     borderColor: '#8b5cf6',
                     borderDash: [5, 5],
                     borderWidth: 2,
@@ -527,14 +560,36 @@ function initForecastChart() {
             },
             scales: {
                 y: {
-                    beginAtZero: false,
-                    min: 7.5,
-                    max: 8.5,
-                    ticks: { font: { size: 12 } }
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        font: { size: 12 },
+                        callback: value => `${value}%`
+                    }
                 }
             }
         }
     });
+}
+
+function renderRolePredictions() {
+    const container = document.getElementById('role-predictions');
+    if (!container) return;
+
+    const forecast = mockData.predictions.roleForecast;
+    container.innerHTML = Object.entries(forecast).map(([role, value]) => {
+        const percent = Math.round(value * 100);
+        const fillClass = percent >= 85 ? 'positive' : percent >= 75 ? 'warning' : 'danger';
+        return `
+            <div class="pred-row">
+                <span class="pred-role">${role}</span>
+                <div class="pred-bar">
+                    <div class="pred-fill ${fillClass}" style="width: ${percent}%;">${percent}%</div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // ==================== HISTORICAL SECTION ====================
@@ -548,12 +603,25 @@ function loadHistoricalData() {
         return;
     }
 
-    initHistoricalChart();
-    updateHistoryTable();
+    // Filter data based on date range
+    const filteredData = mockData.historical.data.filter(record => {
+        const recordDate = new Date(record.date + '-01'); // Add day to make valid date
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
+        return recordDate >= from && recordDate <= to;
+    });
+
+    if (filteredData.length === 0) {
+        showToast('No data available for the selected date range', 'warning');
+        return;
+    }
+
+    initHistoricalChart(filteredData);
+    updateHistoryTable(filteredData);
     showToast('Historical data loaded', 'success');
 }
 
-function initHistoricalChart() {
+function initHistoricalChart(data = mockData.historical.data) {
     const ctx = document.getElementById('historicalChart');
     if (!ctx) return;
 
@@ -561,15 +629,13 @@ function initHistoricalChart() {
         charts.historical.destroy();
     }
 
-    const data = mockData.historical.data;
-
     charts.historical = new Chart(ctx, {
         type: 'line',
         data: {
             labels: data.map(d => d.date),
             datasets: [{
                 label: 'EX Score',
-                data: data.map(d => d.score),
+                data: data.map(d => d.score * 10),
                 borderColor: '#10b981',
                 backgroundColor: 'rgba(16, 185, 129, 0.1)',
                 fill: true,
@@ -589,28 +655,28 @@ function initHistoricalChart() {
             },
             scales: {
                 y: {
-                    beginAtZero: false,
-                    min: 6,
-                    max: 8,
-                    ticks: { font: { size: 12 } }
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        font: { size: 12 },
+                        callback: value => `${value}%`
+                    }
                 }
             }
         }
     });
 }
 
-function updateHistoryTable() {
+function updateHistoryTable(data = mockData.historical.data.slice(-6)) {
     const container = document.getElementById('history-table');
     if (!container) return;
-
-    const data = mockData.historical.data.slice(-6);
 
     container.innerHTML = data.map(record => `
         <div class="history-row">
             <span>${record.date}</span>
-            <span>Score: ${record.score}</span>
+            <span>Average: ${Math.round(record.score * 10)}%</span>
             <span>${record.respondents} responses</span>
-            <span style="color: #10b981; font-weight: 600;">+${Math.round(Math.random() * 5)}%</span>
         </div>
     `).join('');
 }
@@ -657,10 +723,24 @@ window.addEventListener('load', () => {
             initSamplingChart();
         }
 
-        // If AI agent is active, initialize it
-        const agentSection = document.getElementById('ai-agent');
-        if (agentSection && agentSection.classList.contains('active')) {
-            console.log('AI agent section ready');
+        const analyticsSection = document.getElementById('analytics');
+        if (analyticsSection && analyticsSection.classList.contains('active')) {
+            initTrendChart();
+            initDistributionChart();
+            initSentimentChart();
+            renderThemesGrid();
+        }
+
+        const predictionsSection = document.getElementById('predictions');
+        if (predictionsSection && predictionsSection.classList.contains('active')) {
+            initForecastChart();
+            renderRolePredictions();
+        }
+
+        const historicalSection = document.getElementById('historical');
+        if (historicalSection && historicalSection.classList.contains('active')) {
+            initHistoricalChart();
+            updateHistoryTable();
         }
     }, 100);
 });
